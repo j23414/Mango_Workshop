@@ -1,5 +1,5 @@
 /* load microarray expression data */
-node(string id, string name, float c1, float cn1, float cs1, float hs1, float n1, float pH1, float sd1, float description) nt;
+node(string id, string name, float control, float tr1, float tr2) nt;
 link[] lt;
 graph(nt,lt) eco_expr=import("eco_expr.tsv","\t");
 layout(eco_expr,"cube");
@@ -22,9 +22,16 @@ foreach link in sum set _width=0.1,_r=0,_b=0,_g=0;
 
 /* color nodes based on expression */
 foreach node in sum where type=="gene" set _g=0.5,_r=0.5,_b=0.5,_z=_z+rand();
-foreach node in sum where pH1>c1 set _g=1,_r=0,_b=0;
-foreach node in sum where pH1<c1 set _r=1,_g=0,_b=0;
+foreach node in sum where tr2>control set _g=1,_r=0,_b=0;
+foreach node in sum where tr2<control set _r=1,_g=0,_b=0;
 
 /* color links based on expression */
 foreach link in sum where in._r==out._r && in._r>0.5 set _r=1,_width=4,_text="";
 foreach link in sum where in._g==out._g && in._g>0.5 set _g=1,_width=4;
+
+/* nicer colors */
+foreach link in sum where _r>0.5 set _r=(227/255.0), _g=(74/255.0), _b=(51/255.0);
+foreach node in sum where _r>0.5 set _r=(250/255.0), _g=(74/255.0), _b=(51/255.0);
+
+foreach link in sum where _g>0.5 set _r=(44/255.0), _g=(164/255.0), _b=(95/255.0),_width=4;
+foreach node in sum where _g>0.5 set _r=(49/255.0), _g=(200/255.0), _b=(90/255.0),_text="";
