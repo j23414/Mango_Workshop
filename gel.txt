@@ -36,6 +36,9 @@ foreach node in sum where _r>0.5 set _r=(250/255.0), _g=(74/255.0), _b=(51/255.0
 foreach link in sum where _g>0.5 set _r=(44/255.0), _g=(164/255.0), _b=(95/255.0),_width=4;
 foreach node in sum where _g>0.5 set _r=(49/255.0), _g=(200/255.0), _b=(90/255.0),_text="";
 
+/* Convert ids to gene names */
+foreach node in sum set id=name;
+
 /* Save results */
 export("sum.tsv","tsv",sum);
 save "sum.txt",sum;
