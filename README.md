@@ -5,3 +5,4 @@ Example data to combine microarray expression with kegg pathways and then furthe
 * **eco_expr.tsv**: example microarray expression data from E coli, collected by Hyejin Cho, and Hui-Hsien Chou
 * **eco_merged9.txt**: 9 E coli pathways from KEGG
 * **gel.txt**: Open this file in Mango and run line by line
+* **split_nodes_links.pl**: Perl script to split exported graph tsv files into node and link list
