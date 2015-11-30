@@ -5,7 +5,7 @@ graph(nt,lt) eco_expr=import("eco_expr.tsv","\t");
 layout(eco_expr,"cube");
 
 /* load eco_merged9 */
-run "eco_merged9.txt";
+run "eco_merged9.txt"; 
 eco_merged9=select node from eco_merged9 where type!="ortholog" && type!="map";
 eco_merged9.-=select node from eco_merged9 where type=="compound" && (in+out)<1;
 
@@ -19,9 +19,9 @@ sum=select node from sum where type!="";
 /* reset visualization*/
 foreach node in sum where type=="compound" set _radius=0.1;
 foreach link in sum set _width=0.1,_r=0,_b=0,_g=0;
+foreach node in sum where type=="gene" set _g=0.5,_r=0.5,_b=0.5,_z=_z+rand();
 
 /* color nodes based on expression */
-foreach node in sum where type=="gene" set _g=0.5,_r=0.5,_b=0.5,_z=_z+rand();
 foreach node in sum where tr2>control set _g=1,_r=0,_b=0;
 foreach node in sum where tr2<control set _r=1,_g=0,_b=0;
 
@@ -29,7 +29,7 @@ foreach node in sum where tr2<control set _r=1,_g=0,_b=0;
 foreach link in sum where in._r==out._r && in._r>0.5 set _r=1,_width=4,_text="";
 foreach link in sum where in._g==out._g && in._g>0.5 set _g=1,_width=4;
 
-/* nicer colors */
+/* nicer colors, optional */
 foreach link in sum where _r>0.5 set _r=(227/255.0), _g=(74/255.0), _b=(51/255.0);
 foreach node in sum where _r>0.5 set _r=(250/255.0), _g=(74/255.0), _b=(51/255.0);
 
@@ -42,3 +42,9 @@ foreach node in sum set id=name;
 /* Save results */
 export("sum.tsv","tsv",sum);
 save "sum.txt",sum;
+
+/* Export red and green subgraphs */
+auto red=select link from sum where _r>0.5;
+auto green=select link from sum where _g>0.5;
+export("red.tsv","tsv",red);
+export("green.tsv","tsv",green);
