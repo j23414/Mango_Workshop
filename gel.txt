@@ -26,7 +26,7 @@ foreach node in sum where tr2>control set _g=1,_r=0,_b=0;
 foreach node in sum where tr2<control set _r=1,_g=0,_b=0;
 
 /* color links based on expression */
-foreach link in sum where in._r==out._r && in._r>0.5 set _r=1,_width=4,_text="";
+foreach link in sum where in._r==out._r && in._r>0.5 set _r=1,_width=4;
 foreach link in sum where in._g==out._g && in._g>0.5 set _g=1,_width=4;
 
 /* nicer colors, optional */
